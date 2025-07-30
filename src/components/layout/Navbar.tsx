@@ -1,4 +1,5 @@
 import Logo from "@/assets/Logo";
+import { Link } from "react-router";
 
 const Navbar = () => {
   return (
@@ -7,6 +8,8 @@ const Navbar = () => {
         <Logo />
         <span className='font-bold ml-2'>Task</span>
       </div>
+      <Link to="/">Tasks</Link>
+      <Link to="/users">Users</Link>
     </nav>
   );
 };
