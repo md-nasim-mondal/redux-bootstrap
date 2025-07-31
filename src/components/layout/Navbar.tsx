@@ -1,6 +1,6 @@
 import Logo from "@/assets/Logo";
 import { Link } from "react-router";
-import { ModeToggle } from "../mode-toggle";
+import { ModeToggle } from "../ModeToggle";
 
 const Navbar = () => {
   return (
