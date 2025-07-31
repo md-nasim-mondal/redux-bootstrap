@@ -35,12 +35,20 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
+import { useAppDispatch } from "@/redux/hook";
+import { addTask } from "@/redux/features/task/taskSlice";
 
 export function AddTaskModal() {
   const form = useForm();
 
+  const dispatch = useAppDispatch();
+
   const onSubmit = (data) => {
-    console.log(data);
+    const taskData = {
+      ...data,
+      dueDate: data.dueDate instanceof Date ? data.dueDate.toISOString() : data.dueDate,
+    }
+    dispatch(addTask(taskData))
   };
 
   return (
