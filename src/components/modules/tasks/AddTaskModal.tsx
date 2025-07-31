@@ -16,7 +16,7 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
+import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -37,18 +37,19 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { useAppDispatch } from "@/redux/hook";
 import { addTask } from "@/redux/features/task/taskSlice";
+import type { ITask } from "@/types";
 
 export function AddTaskModal() {
   const form = useForm();
 
   const dispatch = useAppDispatch();
 
-  const onSubmit = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
     const taskData = {
       ...data,
       dueDate: data.dueDate instanceof Date ? data.dueDate.toISOString() : data.dueDate,
     }
-    dispatch(addTask(taskData))
+    dispatch(addTask(taskData as ITask))
   };
 
   return (
