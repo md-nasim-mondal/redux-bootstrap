@@ -20,11 +20,11 @@ const initialState: IInitialState = {
   },
     {
     id: "asjashdfj",
-    title: "Create Github Repo",
-    description: "Create Home Page, and Routing",
+    title: "Init Github Repo",
+    description: "Create stage branch",
     dueDate: "2025-11",
     isCompleted: false,
-    priority: "high",
+    priority: "medium",
   },
   ],
   filter: "all"
