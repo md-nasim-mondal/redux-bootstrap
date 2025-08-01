@@ -1,15 +1,26 @@
 import { AddTaskModal } from "@/components/modules/tasks/AddTaskModal";
 import TaskCard from "@/components/modules/tasks/TaskCard";
-import { selectTasks } from "@/redux/features/task/taskSlice";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { selectTasks, updateFilter } from "@/redux/features/task/taskSlice";
 import { useAppSelector } from "@/redux/hook";
+import { useDispatch } from "react-redux";
 
 const Tasks = () => {
   const tasks = useAppSelector(selectTasks);
+  const dispatch = useDispatch()
 
   return (
     <div className='mx-auto max-w-7xl px-5 mt-20'>
-      <div className='flex justify-between items-center'>
-        <h3 className='text-3xl'>Tasks</h3>
+      <div className='flex justify-end items-center gap-5'>
+        <h3 className='text-3xl mr-auto'>Tasks</h3>
+        <Tabs defaultValue="all">
+        <TabsList >
+          <TabsTrigger onClick={() => dispatch(updateFilter("all"))} value="all">All</TabsTrigger>
+          <TabsTrigger onClick={() => dispatch(updateFilter("low"))}  value="low">Low</TabsTrigger>
+          <TabsTrigger onClick={() => dispatch(updateFilter("medium"))}  value="medium">Medium</TabsTrigger>
+          <TabsTrigger onClick={() => dispatch(updateFilter("high"))}  value="high">High</TabsTrigger>
+        </TabsList>
+        </Tabs>
         <AddTaskModal />
       </div>
       <div className='space-y-5 mt-5'>
