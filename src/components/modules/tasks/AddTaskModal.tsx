@@ -39,8 +39,10 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { addTask } from "@/redux/features/task/taskSlice";
 import type { ITask } from "@/types";
 import { selectUsers } from "@/redux/features/user/userSlice";
+import { useState } from "react";
 
 export function AddTaskModal() {
+  const [open, setOpen] = useState(false)
   const users = useAppSelector(selectUsers)
   const form = useForm();
 
@@ -52,10 +54,12 @@ export function AddTaskModal() {
       dueDate: data.dueDate instanceof Date ? data.dueDate.toISOString() : data.dueDate,
     }
     dispatch(addTask(taskData as ITask))
+    setOpen(false)
+    form.reset()
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen} >
       <DialogTrigger asChild>
         <Button>Add Task</Button>
       </DialogTrigger>
