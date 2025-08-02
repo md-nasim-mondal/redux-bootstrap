@@ -36,7 +36,7 @@ const Tasks = () => {
         {/* {tasks.map((task, i) => (
           <TaskCard key={i + 1} task={task} />
         ))} */}
-        {!isLoading && data.tasks.map((task: ITask, i: number) => (
+        {!isLoading && data?.tasks?.map((task: ITask, i: number) => (
           <TaskCard key={i + 1} task={task} />
         ))}
       </div>

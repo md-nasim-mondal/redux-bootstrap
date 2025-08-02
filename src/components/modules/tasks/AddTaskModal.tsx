@@ -40,26 +40,42 @@ import { addTask } from "@/redux/features/task/taskSlice";
 import type { ITask } from "@/types";
 import { selectUsers } from "@/redux/features/user/userSlice";
 import { useState } from "react";
+import { useCreateTaskMutation } from "@/redux/api/baseApi";
 
 export function AddTaskModal() {
-  const [open, setOpen] = useState(false)
-  const users = useAppSelector(selectUsers)
+  const [open, setOpen] = useState(false);
+  const users = useAppSelector(selectUsers);
   const form = useForm();
+
+  const [createTask, { data, isLoading, isError }] = useCreateTaskMutation();
 
   const dispatch = useAppDispatch();
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const taskData = {
       ...data,
-      dueDate: data.dueDate instanceof Date ? data.dueDate.toISOString() : data.dueDate,
-    }
-    dispatch(addTask(taskData as ITask))
-    setOpen(false)
-    form.reset()
+      isCompleted: false,
+      dueDate:
+        data.dueDate instanceof Date
+          ? data.dueDate.toISOString()
+          : data.dueDate,
+    };
+    
+    console.log(taskData);
+
+    //? For redux Toolkit
+    // dispatch(addTask(taskData as ITask));
+
+    // and This is For redux rtk query
+    const res = await createTask(taskData).unwrap();
+    console.log("Inside submit function", res);
+
+    setOpen(false);
+    form.reset();
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen} >
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>Add Task</Button>
       </DialogTrigger>
@@ -142,12 +158,9 @@ export function AddTaskModal() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {
-                        users.map(user => (
-
-                          <SelectItem value={user._id}>{user?.name}</SelectItem>
-                        ))
-                      }
+                      {users.map((user) => (
+                        <SelectItem value={user._id}>{user?.name}</SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </FormItem>
